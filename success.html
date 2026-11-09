@@ -2,17 +2,38 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
+        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Заявка успешно отправлена в учебном интернет-магазине.">
         <title>Заявка отправлена — Учебный интернет-магазин</title>
+        <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
+        <script>document.documentElement.classList.add('js');</script>
+        <script src="js/menu.js" defer></script>
         <script src="js/success.js" defer></script>
     </head>
     <body id="top">
+        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
+        <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
-                <nav class="site-nav" aria-label="Основная навигация">
+
+                <!--
+                    КР3: кнопка мобильного меню. aria-expanded сообщает,
+                    раскрыто ли меню, aria-controls — каким элементом управляет.
+                    Видна только на экранах уже 768px (см. responsive.css).
+                -->
+                <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                    <span class="site-nav__toggle-icon" aria-hidden="true"></span>
+                    <span class="site-nav__toggle-text">Меню</span>
+                </button>
+
+                <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
                     <ul class="site-nav__list">
                         <li class="site-nav__item">
                             <a class="site-nav__link" href="index.html">Главная</a>
@@ -36,18 +57,18 @@
                             <a class="site-nav__link" href="index.html#popular">Популярные товары</a>
                         </li>
                         <li class="site-nav__item">
-                            <a class="site-nav__link" href="index.html#contacts">Обратная связь</a>
+                            <a class="site-nav__link" href="contacts.html#feedback">Обратная связь</a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </header>
 
-        <main>
+        <main id="main" tabindex="-1">
             <nav class="breadcrumbs" aria-label="Хлебные крошки">
                 <a class="breadcrumbs__link" href="index.html">Главная</a>
                 <a class="breadcrumbs__link" href="order.html">Заявка</a>
-                <span class="breadcrumbs__current">Заявка отправлена</span>
+                <span class="breadcrumbs__current" aria-current="page">Заявка отправлена</span>
             </nav>
 
             <section class="section">
@@ -58,7 +79,8 @@
                         </svg>
                     </span>
                     <h1 class="success__title">Заявка отправлена!</h1>
-                    <p class="success__text" id="success-text">
+                    <!-- role="status": скринридер зачитает сообщение после перехода -->
+                    <p class="success__text" id="success-text" role="status">
                         Спасибо! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                     </p>
                     <div class="success__actions">
@@ -70,10 +92,13 @@
         </main>
 
         <footer class="site-footer" id="contacts">
-            <p>&copy; 2026 Учебный проект. Все права защищены.</p>
-            <p>Дисциплина: Фронтенд и бэкенд разработка</p>
+            <div class="site-footer__inner">
+                <p>&copy; 2026 Учебный проект. Все права защищены.</p>
+                <p>Дисциплина: Фронтенд и бэкенд разработка</p>
+            </div>
         </footer>
 
         <a class="scroll-up" href="#top">Наверх</a>
+
     </body>
 </html>
