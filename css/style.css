@@ -1,4 +1,15 @@
 /* ===============================
+   style.css — базовые стили проекта (КР №1 → КР №3)
+
+   В КР №3 файл переведён на подход Mobile First:
+   здесь описан внешний вид компонентов и раскладка
+   для самого узкого экрана (от 320px). Всё, что меняется
+   на более широких экранах, вынесено в css/responsive.css,
+   который подключается ПОСЛЕ этого файла и переопределяет
+   базовые правила через медиазапросы min-width.
+   =============================== */
+
+/* ===============================
    1. Переменные проекта
    =============================== */
 
@@ -6,16 +17,18 @@
   /* Основные цвета проекта */
   --color-bg: #ffffff;
   --color-text: #222222;
-  --color-muted: #666666;
+  --color-muted: #595959;          /* КР3: было #666 — затемнили для контраста на сером фоне (7:1) */
   --color-primary: #0057b8;
   --color-primary-dark: #003f86;
-  --color-border: #dddddd;
+  --color-border: #d0d0d0;
   --color-surface: #f7f7f7;
   --color-surface-accent: #eef5ff;
   --color-danger: #b00020;
-  --color-success: #168a2f;
+  --color-success: #12712a;        /* КР3: было #168a2f — белый текст бейджа «Новинка» не проходил 4.5:1 */
   --color-success-bg: #eefaf0;
   --color-white: #ffffff;
+  --color-hero: #0b2545;           /* КР3: тёмный фон hero-блока под белый текст */
+  --color-focus: #ffbf47;          /* КР3: заметная обводка фокуса на тёмном фоне */
 
   /* Отступы */
   --space-xs: 4px;
@@ -31,6 +44,7 @@
 
   /* Размеры */
   --container-width: 1100px;
+  --tap-size: 44px;                /* КР3: минимальный размер области нажатия (WCAG 2.5.5) */
 }
 
 /* ===============================
@@ -53,6 +67,24 @@ body {
   background-color: var(--color-bg);
 }
 
+/*
+  КР3: длинные названия видеокарт («...ROCK(X) OC 2FAN RGB White»)
+  на ширине 360px не должны растягивать страницу — разрешаем перенос.
+*/
+h1,
+h2,
+h3,
+p,
+li,
+td,
+th {
+  overflow-wrap: break-word;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+  line-height: 1.2;
+}
 
 /* ===============================
    3. Общие элементы интерфейса
@@ -66,16 +98,54 @@ a:hover {
   color: var(--color-primary-dark);
 }
 
-a:focus-visible {
-  outline: 2px solid var(--color-primary);
+/*
+  КР3: единый видимый фокус для ВСЕХ интерактивных элементов
+  (раньше был только у ссылок, кнопок и полей формы —
+  чекбоксы фильтров, summary и select фокус не показывали).
+*/
+:focus-visible {
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
 }
 
-
 main {
-  padding: var(--space-lg);
+  padding: var(--space-md);
 }
 
+/*
+  КР3: ссылка пропуска навигации (skip-link).
+  Спрятана за краем экрана и появляется при первом нажатии Tab,
+  позволяя клавиатурному пользователю сразу перейти к <main>.
+*/
+.skip-link {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 100;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-white);
+  background-color: var(--color-primary-dark);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  color: var(--color-white);
+  transform: translateY(0);
+}
+
+/* Скрыть визуально, но оставить для скринридеров */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* ===============================
    4. Компоненты страницы
@@ -88,7 +158,7 @@ main {
 .site-header__inner {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: var(--space-lg);
+  padding: var(--space-md);
 }
 
 .site-header__logo {
@@ -98,15 +168,14 @@ main {
 }
 
 /*
-  Строим меню навигации с помощью Flexbox: выравниваем
-  пункты по центру и задаём расстояние между ними через gap.
+  Строим меню навигации с помощью Flexbox.
+  Mobile First: на телефоне пункты идут в колонку
+  (раскладку «в строку» включает responsive.css от 768px).
 */
 .site-nav__list {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-md);
+  flex-direction: column;
+  gap: var(--space-xs);
   padding: 0;
   margin: var(--space-md) 0 0;
   list-style: none;
@@ -116,25 +185,18 @@ main {
   Оформляем ссылки меню как кнопки.
 */
 .site-nav__link {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-size);
   padding: var(--space-sm) var(--space-md);
   color: var(--color-primary);
   text-decoration: none;
   border-radius: var(--radius-sm);
 }
 
-/*
-  При наведении мыши подсвечиваем ссылку меню.
-  Подробно состояния интерфейса будут рассмотрены в практической работе 1.7.
-*/
 .site-nav__link:hover {
   color: var(--color-white);
   background-color: var(--color-primary);
-}
-
-.site-nav__link:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
 }
 
 /*
@@ -145,18 +207,26 @@ main {
   background-color: var(--color-primary);
 }
 
-
 .site-footer {
-  padding: var(--space-lg);
+  padding: var(--space-md);
   background-color: var(--color-surface);
 }
 
+.site-footer__inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
 .button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-size);      /* КР3: кнопка удобна для нажатия пальцем */
   padding: var(--space-sm) var(--space-md);
   border: none;
   border-radius: var(--radius-sm);
   font: inherit;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
 }
@@ -167,6 +237,7 @@ main {
 }
 
 .button--primary:hover {
+  color: var(--color-white);
   background-color: var(--color-primary-dark);
 }
 
@@ -181,31 +252,76 @@ main {
   background-color: var(--color-primary);
 }
 
-.button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
 .button:disabled,
 .button--disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.hero {
-  max-width: var(--container-width);
-  min-height: 60vh;
-  color: white;
-  margin: 0 auto var(--space-xl);
-  padding: var(--space-xl) var(--space-lg);
-  background-color: var(--color-surface-accent);
-  background-image:
-    url("../images/Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition.webp");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border-radius: var(--radius-lg);
-  background-color: #fff;
 
+/*
+  Hero-блок. В КР1 картинка была фоном (background-image) и белый
+  текст лежал прямо на белом фото — контраст не проходил проверку.
+  В КР3 текст стоит на тёмной плашке, а изображение вынесено
+  в <picture> с разными кадрами для телефона и desktop (art direction).
+  Mobile First: текст и картинка идут в одну колонку.
+*/
+.hero {
+  display: grid;
+  gap: var(--space-lg);
+  max-width: var(--container-width);
+  margin: 0 auto var(--space-xl);
+  padding: var(--space-lg) var(--space-md);
+  color: var(--color-white);
+  background-color: var(--color-hero);
+  border-radius: var(--radius-lg);
+}
+
+.hero__title {
+  margin: 0 0 var(--space-md);
+}
+
+.hero__text {
+  margin: 0 0 var(--space-lg);
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Белая кнопка на тёмном фоне + жёлтая обводка фокуса */
+.hero .button--primary {
+  color: var(--color-hero);
+  background-color: var(--color-white);
+}
+
+.hero .button--primary:hover {
+  background-color: var(--color-surface-accent);
+}
+
+.hero .button--secondary {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.hero :focus-visible {
+  outline-color: var(--color-focus);
+}
+
+.hero__media {
+  display: block;                   /* <picture> по умолчанию строчный */
+  margin: 0;
+}
+
+.hero__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;                /* квадратный кадр на 600–767px не растягивается на весь экран */
+  object-fit: contain;
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
 }
 
 .section {
@@ -224,6 +340,7 @@ main {
   color: var(--color-primary);
 }
 
+.breadcrumbs__link + .breadcrumbs__link::before,
 .breadcrumbs__current::before {
   content: " / ";
   color: var(--color-muted);
@@ -238,38 +355,92 @@ main {
   margin-top: 0;
 }
 
+/* Список преимуществ — сетка карточек (колонки добавляет responsive.css) */
+.advantages-list {
+  display: grid;
+  gap: var(--space-md);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.advantages-list__item {
+  padding: var(--space-md);
+  border-left: 4px solid var(--color-primary);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
 /*
-  Каркас страницы каталога на CSS Grid: слева блок фильтров,
-  справа сетка товаров. Расположение областей задаём через
-  grid-template-areas.
+  Каркас страницы каталога на CSS Grid.
+  Mobile First: одна колонка — сначала фильтр, потом товары.
+  Двухколоночный вариант «filters products» включается
+  в responsive.css от 1024px.
 */
 .catalog-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "filters products";
+    "filters"
+    "products";
   gap: var(--space-lg);
   max-width: var(--container-width);
   margin: 0 auto var(--space-xl);
 }
 
+/*
+  Боковой фильтр. На телефоне — сворачиваемый блок <details>,
+  чтобы десяток полей не отодвигал товары на второй экран.
+  position: sticky включается только на desktop (responsive.css).
+*/
 .catalog-filters {
   grid-area: filters;
-  position: sticky;
-  top: var(--space-md);
   align-self: start;
-  padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
 }
 
-.catalog-filters h2 {
-  margin-top: 0;
+.catalog-filters__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--tap-size);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  list-style: none;                 /* убираем стандартный треугольник */
+}
+
+.catalog-filters__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Свой индикатор «раскрыто/свёрнуто» */
+.catalog-filters__summary::after {
+  content: "+";
+  font-size: 24px;
+  line-height: 1;
+}
+
+.catalog-filters[open] .catalog-filters__summary::after {
+  content: "−";
+}
+
+.catalog-filters__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.catalog-filters__body {
+  padding: 0 var(--space-md) var(--space-md);
 }
 
 .catalog-products {
   grid-area: products;
+}
+
+.catalog-products h2 {
+  margin-top: 0;
 }
 
 .filters-form {
@@ -289,24 +460,35 @@ main {
 }
 
 .filters-form label {
-  display: block;
-  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 36px;
+}
+
+.filters-form input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
 }
 
 .filters-form input[type="number"] {
   width: 100%;
+  min-height: var(--tap-size);
   padding: 6px 8px;
-  border: 1px solid var(--color-border);
+  border: 1px solid #8a8a8a;
   border-radius: var(--radius-sm);
   font: inherit;
+  font-size: 16px;
 }
 
 /*
-  Сетка карточек товаров на CSS Grid: три колонки равной ширины.
+  Сетка карточек товаров на CSS Grid.
+  Mobile First: одна колонка, 2 и 3 колонки добавляются
+  в responsive.css на 600px и 1024px.
 */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--space-lg);
 }
 
@@ -319,6 +501,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  min-width: 0;                     /* КР3: карточка-grid-элемент не распирает колонку длинным текстом */
   padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -349,7 +532,8 @@ main {
   color: var(--color-white);
   background-color: var(--color-primary);
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .product-card__badge--new {
@@ -363,14 +547,16 @@ main {
 .product-card__image {
   display: block;
   width: 100%;
-  height: 180px;
+  height: auto;
+  aspect-ratio: 4 / 3;              /* КР3: вместо фиксированных 180px — пропорция, не зависящая от ширины */
   object-fit: contain;
-  background-color: var(--color-surface);
+  background-color: var(--color-white);  /* фото товаров на белом фоне — без серых полос по краям */
   border-radius: var(--radius-sm);
 }
 
 .product-card__title {
   margin: 0;
+  font-size: 1.1rem;
   color: var(--color-text);
 }
 
@@ -388,9 +574,10 @@ main {
   color: var(--color-danger);
 }
 
+/* На телефоне кнопка во всю ширину карточки — проще попасть пальцем */
 .product-card__button {
   margin-top: auto;
-  align-self: flex-start;
+  width: 100%;
 }
 
 /*
@@ -399,27 +586,42 @@ main {
 */
 .scroll-up {
   position: fixed;
-  right: var(--space-lg);
-  bottom: var(--space-lg);
+  right: var(--space-md);
+  bottom: var(--space-md);
   z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-size);
   padding: var(--space-sm) var(--space-md);
   color: var(--color-white);
   background-color: var(--color-primary);
   text-decoration: none;
   border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .scroll-up:hover {
+  color: var(--color-white);
   background-color: var(--color-primary-dark);
 }
 
 /*
-  Двухколоночная раскладка страницы товара.
+  Раскладка страницы товара.
+  Mobile First: фото над описанием, две колонки — от 768px.
 */
 .product-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-lg);
+}
+
+.product-layout > * {
+  min-width: 0;                     /* КР3: позволяет таблице внутри колонки сжиматься/скроллиться */
+}
+
+.product-photo {
+  display: block;                   /* <picture> по умолчанию строчный */
+  margin: 0;
 }
 
 .product-photo__image {
@@ -428,7 +630,7 @@ main {
   aspect-ratio: 4 / 3;
   height: auto;
   object-fit: contain;
-  background-color: var(--color-surface);
+  background-color: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
@@ -439,12 +641,21 @@ main {
 }
 
 /*
-  Таблица характеристик товара.
+  Таблицы характеристик и сравнения.
+  Обёртка .table-wrapper даёт горизонтальную прокрутку ТОЛЬКО
+  внутри себя — сама страница вбок не прокручивается.
+  tabindex="0" + role="region" в HTML позволяют
+  прокручивать таблицу с клавиатуры.
 */
+.table-wrapper {
+  max-width: 100%;
+  margin-bottom: var(--space-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .product-table {
   width: 100%;
-  max-width: 480px;
-  margin-bottom: var(--space-lg);
   border-collapse: collapse;
 }
 
@@ -465,6 +676,11 @@ main {
   background-color: var(--color-surface);
 }
 
+/* Широкая таблица сравнения: не сжимается уже 640px — прокручивается в обёртке */
+.product-table--compare {
+  min-width: 640px;
+}
+
 .aside-info {
   max-width: var(--container-width);
   margin: 0 auto var(--space-xl);
@@ -473,15 +689,45 @@ main {
   background-color: var(--color-surface);
 }
 
+/* Контакты */
+.contacts-layout {
+  display: grid;
+  gap: var(--space-lg);
+}
 
+.contacts-layout > * {
+  min-width: 0;
+}
+
+.contacts-list {
+  display: grid;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.contacts-list__item {
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+}
+
+.contacts-list__label {
+  display: block;
+  font-size: 14px;
+  color: var(--color-muted);
+}
 
 /* ===============================
    5. Форма и модальное окно
    =============================== */
 
 .order-dialog {
-  width: min(100% - 32px, 560px);
-  padding: var(--space-lg);
+  width: min(100% - 16px, 560px);
+  max-height: calc(100dvh - 16px);   /* КР3: на низком экране окно не вылезает за край — прокручивается */
+  padding: var(--space-md);
+  overflow-y: auto;
   border: none;
   border-radius: var(--radius-lg);
 }
@@ -494,27 +740,59 @@ main {
   margin-top: 0;
 }
 
+/*
+  Сетка полей формы. Mobile First: одна колонка.
+  На планшете и desktop responsive.css делает две колонки,
+  а поля с модификатором --wide растягивает на обе.
+*/
+.order-form__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: var(--space-lg);
+}
+
 .order-form__field {
+  min-width: 0;
   margin-bottom: var(--space-md);
 }
 
 .order-form__label {
   display: block;
   margin-bottom: var(--space-xs);
+  font-weight: 700;
 }
 
 .order-form__input,
 .order-form__select,
 .order-form__textarea {
   width: 100%;
+  max-width: 100%;
+  min-height: var(--tap-size);
   padding: 10px 12px;
-  border: 1px solid var(--color-border);
+  border: 1px solid #8a8a8a;        /* КР3: граница поля контрастнее (3:1 к фону) */
   border-radius: var(--radius-sm);
   font: inherit;
+  font-size: 16px;                  /* КР3: <16px iOS Safari зумит страницу при фокусе */
 }
 
-.order-form__input[type="checkbox"] {
-  width: auto;
+.order-form__textarea {
+  resize: vertical;
+}
+
+/* Чекбокс согласия: label-строка с крупной областью клика */
+.order-form__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.order-form__checkbox input {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
 }
 
 .order-form__hint {
@@ -529,21 +807,17 @@ main {
   border-color: var(--color-primary);
 }
 
-.order-form__input:focus-visible,
-.order-form__select:focus-visible,
-.order-form__textarea:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
+/* Mobile First: кнопки формы в колонку на всю ширину, с отступом — не слипаются */
 .order-form__actions {
   display: flex;
+  flex-direction: column-reverse;
   gap: var(--space-md);
   margin-top: var(--space-lg);
 }
 
 [aria-invalid="true"] {
   border-color: var(--color-danger);
+  border-width: 2px;
 }
 
 /* ===============================
@@ -557,7 +831,7 @@ main {
   gap: var(--space-md);
   max-width: 640px;
   margin: 0 auto;
-  padding: var(--space-xl);
+  padding: var(--space-lg) var(--space-md);
   text-align: center;
   background-color: var(--color-success-bg);
   border: 1px solid var(--color-success);
@@ -593,62 +867,7 @@ main {
   margin-top: var(--space-sm);
 }
 
-/* ===============================
-   7. Адаптивность
-   =============================== */
-
-@media (max-width: 900px) {
-  .catalog-layout {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "filters"
-      "products";
-  }
-
-  .catalog-filters {
-    position: static;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .product-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .product-table {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  main {
-    padding: var(--space-md);
-  }
-
-  .site-header__inner,
-  .site-footer {
-    padding: var(--space-md);
-  }
-
-  .hero {
-    padding: var(--space-lg) var(--space-md);
-  }
-
-  .site-nav__list {
-    gap: var(--space-xs);
-  }
-
-  .site-nav__link {
-    padding: var(--space-xs) var(--space-sm);
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .order-dialog {
-    width: min(100% - 16px, 560px);
-  }
-}
+/*
+  Раздел «7. Адаптивность» из КР1 (медиазапросы max-width)
+  удалён: все адаптивные правила теперь в css/responsive.css.
+*/

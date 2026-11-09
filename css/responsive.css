@@ -1,0 +1,495 @@
+/* =========================================================
+   responsive.css — адаптивные стили (КР №3)
+
+   Подключается ПОСЛЕ style.css, поэтому при равной
+   специфичности правила отсюда побеждают базовые.
+
+   Подход — Mobile First:
+   1) без медиазапроса — стили для телефона (от 320px);
+   2) дальше экран только РАСШИРЯЕТСЯ через min-width.
+
+   Точки перелома (breakpoints):
+     480px  — крупный телефон (430px и шире)
+     600px  — маленький планшет / телефон в альбомной ориентации
+     768px  — планшет
+     1024px — небольшой desktop
+     1280px — desktop
+     1440px — широкий desktop
+
+   Проверено на ширинах: 360, 430, 768, 1024, 1440px.
+   ========================================================= */
+
+
+/* =========================================================
+   1. Responsive images — базовое правило из методички.
+   Картинка никогда не шире своего контейнера,
+   высота пересчитывается пропорционально.
+   ========================================================= */
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+  Страховка от горизонтального скролла всей страницы.
+  overflow-x: clip (а не hidden) не ломает position: sticky у фильтра.
+  Сами причины переполнения исправлены точечно (min-width: 0,
+  overflow-wrap, .table-wrapper) — это только «ремень безопасности».
+*/
+html,
+body {
+  overflow-x: clip;
+}
+
+
+/* =========================================================
+   2. Шапка и мобильное меню (база = телефон)
+   ========================================================= */
+
+/* Логотип слева, кнопка «Меню» справа, навигация — строкой ниже */
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.site-nav {
+  flex-basis: 100%;
+}
+
+/*
+  Кнопка-бургер. Без JavaScript она не нужна и скрыта —
+  меню просто показано списком (прогрессивное улучшение).
+  Класс .js ставит на <html> однострочный скрипт в <head>.
+*/
+.site-nav__toggle {
+  display: none;
+}
+
+.js .site-nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: var(--tap-size);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-primary);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Иконка «три полоски» из одного span и двух псевдоэлементов */
+.site-nav__toggle-icon,
+.site-nav__toggle-icon::before,
+.site-nav__toggle-icon::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.site-nav__toggle-icon {
+  position: relative;
+}
+
+.site-nav__toggle-icon::before,
+.site-nav__toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.site-nav__toggle-icon::before {
+  top: -6px;
+}
+
+.site-nav__toggle-icon::after {
+  top: 6px;
+}
+
+/* Открытое меню: полоски превращаются в крестик */
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon {
+  background-color: transparent;
+}
+
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* С JS меню на телефоне свёрнуто, пока не нажата кнопка */
+.js .site-nav__list {
+  display: none;
+}
+
+.js .site-nav--open .site-nav__list {
+  display: flex;
+}
+
+
+/* =========================================================
+   3. Таблица сравнения: карточный вид на телефоне
+
+   На узком экране каждая строка таблицы превращается
+   в карточку, а название колонки подставляется из
+   data-label через ::before. С 600px таблица возвращается
+   к обычному виду и, если не влезает, прокручивается
+   внутри .table-wrapper.
+   ========================================================= */
+
+.product-table--compare {
+  min-width: 0;
+}
+
+.product-table--compare thead {
+  /* заголовки колонок прячем визуально — их заменяют data-label */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.product-table--compare tbody,
+.product-table--compare tr,
+.product-table--compare th,
+.product-table--compare td {
+  display: block;
+}
+
+.product-table--compare tr {
+  margin-bottom: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.product-table--compare tbody th {
+  background-color: var(--color-surface-accent);
+  border: none;
+}
+
+.product-table--compare td {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  border: none;
+  border-top: 1px solid var(--color-border);
+  text-align: right;
+}
+
+.product-table--compare td::before {
+  content: attr(data-label);
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Текущий товар выделяем в сравнении */
+.product-table--compare .product-table__row--current th {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+/* Ссылка на синем фоне — белая, иначе сливается (контраст) */
+.product-table--compare .product-table__row--current th a {
+  color: var(--color-white);
+}
+
+
+/* =========================================================
+   4. Крупный телефон — от 480px (430px и шире)
+   ========================================================= */
+
+@media (min-width: 480px) {
+  /* Кнопки hero и формы встают в строку — места уже хватает */
+  .hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .order-form__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .order-form__actions .button {
+    flex: 1 1 auto;
+  }
+}
+
+
+/* =========================================================
+   5. Маленький планшет — от 600px
+   ========================================================= */
+
+@media (min-width: 600px) {
+  /* Карточки товаров — 2 колонки */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Кнопка в карточке — по содержимому, не во всю ширину */
+  .product-card__button {
+    width: auto;
+    align-self: flex-start;
+  }
+
+  .advantages-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /*
+    Форма заявки — двухколоночная сетка.
+    Комментарий, чекбокс и т.п. (--wide) занимают обе колонки.
+  */
+  .order-form__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .order-form__field--wide {
+    grid-column: 1 / -1;
+  }
+
+  /* Поля фильтра «Категория» и «Цена» — рядом */
+  .filters-form {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+
+  .filters-form .button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  /* Таблица сравнения возвращается к обычному табличному виду */
+  .product-table--compare {
+    min-width: 640px;
+  }
+
+  .product-table--compare thead {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .product-table--compare thead {
+    display: table-header-group;
+  }
+
+  .product-table--compare tbody {
+    display: table-row-group;
+  }
+
+  .product-table--compare tr {
+    display: table-row;
+    margin: 0;
+    border: none;
+  }
+
+  .product-table--compare th,
+  .product-table--compare td {
+    display: table-cell;
+    border: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .product-table--compare td::before {
+    content: none;
+  }
+
+  .product-table--compare tbody th {
+    background-color: var(--color-surface);
+  }
+
+  /* Выделение текущего товара в табличном виде сохраняем */
+  .product-table--compare .product-table__row--current th {
+    background-color: var(--color-primary);
+  }
+
+  .success {
+    padding: var(--space-xl);
+  }
+}
+
+
+/* =========================================================
+   6. Планшет — от 768px
+   ========================================================= */
+
+@media (min-width: 768px) {
+  main {
+    padding: var(--space-lg);
+  }
+
+  .site-header__inner,
+  .site-footer {
+    padding: var(--space-lg);
+  }
+
+  /* Бургер больше не нужен — меню всегда видно, пункты в строку */
+  .js .site-nav__toggle {
+    display: none;
+  }
+
+  .site-nav__list,
+  .js .site-nav__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+
+  .site-nav__link {
+    min-height: 40px;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .hero {
+    padding: var(--space-xl);
+  }
+
+  /* Страница товара: фото | описание и характеристики */
+  .product-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  /* Контакты: информация | форма обратной связи */
+  .contacts-layout {
+    grid-template-columns: 1fr 1.4fr;
+    align-items: start;
+  }
+
+  .order-dialog {
+    padding: var(--space-lg);
+  }
+
+  .advantages-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* =========================================================
+   7. Небольшой desktop — от 1024px
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  /* Hero: текст слева, изображение справа */
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 360px;
+  }
+
+  /* Главная: 3 карточки в ряд */
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /*
+    Каталог: боковой фильтр слева, товары справа.
+    Фильтр «прилипает» при прокрутке (sticky).
+  */
+  .catalog-layout {
+    grid-template-columns: 260px 1fr;
+    grid-template-areas: "filters products";
+  }
+
+  .catalog-filters {
+    position: sticky;
+    top: var(--space-md);
+  }
+
+  /* На desktop фильтр всегда раскрыт — индикатор +/− не нужен */
+  .catalog-filters__summary {
+    cursor: default;
+  }
+
+  .catalog-filters__summary::after {
+    content: none;
+  }
+
+  /* В узкой боковой колонке поля фильтра — снова одна колонка */
+  .filters-form {
+    grid-template-columns: 1fr;
+  }
+
+  /* Рядом с фильтром места на 3 карточки нет — оставляем 2 */
+  .catalog-products .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* =========================================================
+   8. Desktop — от 1280px
+   ========================================================= */
+
+@media (min-width: 1280px) {
+  .catalog-products .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+/* =========================================================
+   9. Широкий desktop — от 1440px
+   ========================================================= */
+
+@media (min-width: 1440px) {
+  /* Контейнер шире, чтобы на большом мониторе не было «узкой полосы» */
+  :root {
+    --container-width: 1280px;
+  }
+
+  /*
+    Логотип и меню в одну строку. Включаем только здесь:
+    8 пунктов меню + логотип помещаются в строку лишь
+    в контейнере 1280px, на 1100px они бы переносились.
+  */
+  .site-nav {
+    flex-basis: auto;
+  }
+
+  .site-nav__list,
+  .js .site-nav__list {
+    margin-top: 0;
+    justify-content: flex-end;
+  }
+
+  .products-grid {
+    gap: var(--space-xl);
+  }
+}
+
+
+/* =========================================================
+   10. Доступность: пользователь просил меньше анимаций
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
