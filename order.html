@@ -2,32 +2,23 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Форма оформления заявки учебного интернет-магазина.">
         <title>Оформление заявки — Учебный интернет-магазин</title>
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
         <script>document.documentElement.classList.add('js');</script>
         <script src="js/menu.js" defer></script>
         <script src="js/order.js" defer></script>
     </head>
     <body id="top">
-        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
         <a class="skip-link" href="#main">Перейти к основному содержимому</a>
 
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
 
-                <!--
-                    КР3: кнопка мобильного меню. aria-expanded сообщает,
-                    раскрыто ли меню, aria-controls — каким элементом управляет.
-                    Видна только на экранах уже 768px (см. responsive.css).
-                -->
                 <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
                     <span class="site-nav__toggle-icon" aria-hidden="true"></span>
                     <span class="site-nav__toggle-text">Меню</span>
@@ -77,12 +68,6 @@
                     Все поля, кроме комментария, обязательны.
                 </p>
 
-                <!--
-                    КР3: адаптивная форма.
-                    .order-form__grid — CSS Grid: 1 колонка на телефоне,
-                    2 колонки от 600px; поля --wide занимают всю строку.
-                    У каждого поля есть <label for>, подсказки связаны через aria-describedby.
-                -->
                 <form class="order-form" id="order-form" action="#" method="post" novalidate>
                     <div class="order-form__grid">
                         <div class="order-form__field">

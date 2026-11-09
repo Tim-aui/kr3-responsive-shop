@@ -2,31 +2,22 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Контактная информация учебного интернет-магазина.">
         <title>Контакты — Учебный интернет-магазин</title>
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
         <script>document.documentElement.classList.add('js');</script>
         <script src="js/menu.js" defer></script>
     </head>
     <body id="top">
-        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
         <a class="skip-link" href="#main">Перейти к основному содержимому</a>
 
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
 
-                <!--
-                    КР3: кнопка мобильного меню. aria-expanded сообщает,
-                    раскрыто ли меню, aria-controls — каким элементом управляет.
-                    Видна только на экранах уже 768px (см. responsive.css).
-                -->
                 <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
                     <span class="site-nav__toggle-icon" aria-hidden="true"></span>
                     <span class="site-nav__toggle-text">Меню</span>
@@ -71,11 +62,9 @@
 
             <h1 class="section">Контакты</h1>
 
-            <!-- Grid: на телефоне контакты над формой, от 768px — рядом -->
             <div class="section contacts-layout">
                 <section aria-labelledby="contacts-info-title">
                     <h2 id="contacts-info-title">Как с нами связаться</h2>
-                    <!-- КР3: телефон и почта — ссылки tel:/mailto:, на телефоне звонок в одно касание -->
                     <ul class="contacts-list">
                         <li class="contacts-list__item">
                             <span class="contacts-list__label">Телефон</span>
@@ -98,12 +87,6 @@
 
                 <section id="feedback" aria-labelledby="feedback-title">
                     <h2 id="feedback-title">Обратная связь</h2>
-                    <!--
-                        КР3: форма обратной связи работает без JavaScript:
-                        method="get" передаёт поле name на success.html,
-                        а success.js выводит персональное сообщение.
-                        Обязательность полей проверяет сам браузер (required).
-                    -->
                     <form class="order-form" action="success.html" method="get">
                         <div class="order-form__grid">
                             <div class="order-form__field">

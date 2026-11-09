@@ -2,32 +2,23 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Главная страница учебного интернет-магазина видеокарт.">
         <title>Главная — Учебный интернет-магазин</title>
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
         <script>document.documentElement.classList.add('js');</script>
         <script src="js/menu.js" defer></script>
         <script src="js/main.js" defer></script>
     </head>
     <body id="top">
-        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
         <a class="skip-link" href="#main">Перейти к основному содержимому</a>
 
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
 
-                <!--
-                    КР3: кнопка мобильного меню. aria-expanded сообщает,
-                    раскрыто ли меню, aria-controls — каким элементом управляет.
-                    Видна только на экранах уже 768px (см. responsive.css).
-                -->
                 <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
                     <span class="site-nav__toggle-icon" aria-hidden="true"></span>
                     <span class="site-nav__toggle-text">Меню</span>
@@ -66,12 +57,6 @@
 
         <main id="main" tabindex="-1">
 
-            <!--
-                Hero-блок. КР3: изображение вынесено из CSS-фона в <picture>:
-                - art direction: на телефоне квадратный кадр, от 768px — широкий;
-                - форматы: браузер берёт AVIF, если умеет, иначе WebP;
-                - srcset + sizes: из нескольких ширин скачивается подходящая.
-            -->
             <section class="hero" aria-labelledby="hero-title">
                 <div class="hero__content">
                     <h1 class="hero__title" id="hero-title">Видеокарты для игр и работы</h1>
@@ -118,7 +103,6 @@
 
             <section class="section" id="advantages">
                 <h2>Преимущества магазина</h2>
-                <!-- Сетка Grid: 1 колонка → 2 (600px) → 4 (768px) -->
                 <ul class="advantages-list">
                     <li class="advantages-list__item">Проверка каждой видеокарты перед продажей</li>
                     <li class="advantages-list__item">Гарантия 6 месяцев на все товары</li>
@@ -217,11 +201,6 @@
 
         <a class="scroll-up" href="#top">Наверх</a>
 
-        <!--
-            Модальное окно на нативном <dialog>: showModal() даёт ловушку фокуса,
-            закрытие по Esc и делает фон недоступным. aria-labelledby связывает
-            окно с заголовком, aria-describedby — с названием выбранного товара.
-        -->
         <dialog class="order-dialog" id="order-dialog" aria-labelledby="order-dialog-title" aria-describedby="order-dialog-product">
             <h2 class="order-dialog__title" id="order-dialog-title">Оформление заявки</h2>
             <p id="order-dialog-product"></p>

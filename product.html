@@ -2,32 +2,23 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Карточка товара учебного интернет-магазина.">
         <title>Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition — Учебный интернет-магазин</title>
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
         <script>document.documentElement.classList.add('js');</script>
         <script src="js/menu.js" defer></script>
         <script src="js/product.js" defer></script>
     </head>
     <body id="top">
-        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
         <a class="skip-link" href="#main">Перейти к основному содержимому</a>
 
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
 
-                <!--
-                    КР3: кнопка мобильного меню. aria-expanded сообщает,
-                    раскрыто ли меню, aria-controls — каким элементом управляет.
-                    Видна только на экранах уже 768px (см. responsive.css).
-                -->
                 <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
                     <span class="site-nav__toggle-icon" aria-hidden="true"></span>
                     <span class="site-nav__toggle-text">Меню</span>
@@ -74,13 +65,7 @@
             <section class="section">
                 <h1 id="product-title">Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition</h1>
 
-                <!-- Grid: фото над описанием на телефоне, две колонки от 768px -->
                 <div class="product-layout">
-                    <!--
-                        КР3: <picture> с двумя форматами — AVIF (меньше вес) и WebP (запасной).
-                        sizes: на телефоне фото во всю ширину, от 768px — половина контейнера.
-                        Для других товаров srcset подставляет js/product.js.
-                    -->
                     <picture class="product-photo">
                         <source
                             id="product-image-avif"
@@ -113,11 +98,6 @@
                             в 4K и работы с графикой.
                         </p>
 
-                        <!--
-                            Базовый вариант адаптивной таблицы: обёртка с прокруткой.
-                            role="region" + aria-labelledby + tabindex="0" — область можно
-                            выбрать клавишей Tab и прокрутить стрелками.
-                        -->
                         <div class="table-wrapper" role="region" aria-labelledby="spec-caption" tabindex="0">
                             <table class="product-table">
                                 <caption id="spec-caption">Характеристики товара</caption>
@@ -163,15 +143,6 @@
 
             <section class="section" aria-labelledby="compare-caption">
                 <h2>Сравнение с похожими моделями</h2>
-                <!--
-                    КР3 (доработка): широкая таблица сравнения.
-                    До 600px — карточное представление (каждая строка = карточка,
-                    подписи из data-label), от 600px — обычная таблица
-                    с прокруткой внутри .table-wrapper.
-                    ARIA-роли нужны здесь по делу: display: block на элементах
-                    таблицы в карточном режиме стирает табличную семантику
-                    в некоторых браузерах, роли её возвращают для скринридера.
-                -->
                 <div class="table-wrapper" role="region" aria-labelledby="compare-caption" tabindex="0">
                     <table class="product-table product-table--compare" role="table">
                         <caption id="compare-caption">Сравнение видеокарт</caption>

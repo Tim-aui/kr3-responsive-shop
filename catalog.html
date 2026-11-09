@@ -2,31 +2,22 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <!-- viewport: ширина страницы = ширине экрана устройства, без начального масштабирования -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Каталог видеокарт учебного интернет-магазина.">
         <title>Каталог товаров — Учебный интернет-магазин</title>
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-        <!-- responsive.css подключается ПОСЛЕ style.css, чтобы медиазапросы переопределяли базовые стили -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- КР3: класс .js включает мобильное меню; без JS меню просто показано списком -->
         <script>document.documentElement.classList.add('js');</script>
         <script src="js/menu.js" defer></script>
     </head>
     <body id="top">
-        <!-- КР3: ссылка пропуска навигации — первый элемент в порядке Tab -->
         <a class="skip-link" href="#main">Перейти к основному содержимому</a>
 
         <header class="site-header">
             <div class="site-header__inner">
                 <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
 
-                <!--
-                    КР3: кнопка мобильного меню. aria-expanded сообщает,
-                    раскрыто ли меню, aria-controls — каким элементом управляет.
-                    Видна только на экранах уже 768px (см. responsive.css).
-                -->
                 <button class="site-nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">
                     <span class="site-nav__toggle-icon" aria-hidden="true"></span>
                     <span class="site-nav__toggle-text">Меню</span>
@@ -78,12 +69,6 @@
             </section>
 
             <div class="catalog-layout">
-                <!--
-                    КР3: боковой фильтр на <details>/<summary>.
-                    Атрибут open стоит в разметке — без JS фильтр раскрыт.
-                    menu.js сворачивает его на экранах уже 1024px
-                    и держит раскрытым на desktop.
-                -->
                 <details class="catalog-filters" open>
                     <summary class="catalog-filters__summary">
                         <h2 class="catalog-filters__title">Фильтры</h2>
@@ -119,11 +104,6 @@
                         </form>
                     </div>
                 </details>
-                <!--
-                    КР3: сворачиваем фильтр на телефоне/планшете СРАЗУ, до первой отрисовки.
-                    Если делать это в menu.js (defer), страница успевает отрисоваться
-                    с раскрытым фильтром и «прыгает» — Lighthouse показывал CLS 0.28.
-                -->
                 <script>
                     if (!window.matchMedia('(min-width: 1024px)').matches) {
                         document.currentScript.previousElementSibling.open = false;
@@ -133,7 +113,6 @@
                 <section class="catalog-products" aria-labelledby="catalog-list-title">
                     <h2 id="catalog-list-title">Список товаров</h2>
 
-                    <!-- Сетка Grid: 1 колонка → 2 (600px) → 2 рядом с фильтром (1024px) → 3 (1280px) -->
                     <div class="products-grid">
                         <article class="product-card product-card--featured">
                             <img

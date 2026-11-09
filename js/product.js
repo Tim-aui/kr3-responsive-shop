@@ -1,7 +1,5 @@
 // Данные о товарах для страницы карточки товара.
 // Ключ — значение параметра id в адресной строке (product.html?id=...).
-// КР3: вместо одного файла картинки храним список ширин нарезки (sizes),
-// файлы лежат в images/products/<id>-<ширина>.webp и .avif.
 const products = {
   'asus-rtx-5080': {
     name: 'Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition',
@@ -112,8 +110,6 @@ if (product) {
   document.getElementById('spec-memory').textContent = product.memory;
   document.getElementById('spec-interface').textContent = product.interface;
 
-  // КР3: собираем srcset для AVIF и WebP из списка ширин.
-  // Браузер сам выберет подходящий размер по атрибуту sizes в разметке.
   const base = 'images/products/' + params.get('id');
   const srcset = (ext) => product.sizes.map((w) => `${base}-${w}.${ext} ${w}w`).join(', ');
   const largest = product.sizes[product.sizes.length - 1];
@@ -125,8 +121,6 @@ if (product) {
   image.src = `${base}-${largest}.webp`;
   image.alt = product.name;
 
-  // КР3: выделяем текущий товар в таблице сравнения (если он там есть).
-  // Сначала снимаем выделение со строки по умолчанию (ASUS RTX 5080).
   document.querySelectorAll('.product-table__row--current')
     .forEach((row) => row.classList.remove('product-table__row--current'));
 
@@ -135,6 +129,5 @@ if (product) {
     compareRow.classList.add('product-table__row--current');
   }
 
-  // КР3: кнопка заявки сразу передаёт товар в форму order.html.
   document.getElementById('product-order-link').href = 'order.html?product=' + params.get('id');
 }
