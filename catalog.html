@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Каталог товаров учебного интернет-магазина.">
+        <title>Каталог товаров — Учебный интернет-магазин</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body id="top">
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a class="site-header__logo" href="index.html">ПослеМайнинга</a>
+                <nav class="site-nav" aria-label="Основная навигация">
+                    <ul class="site-nav__list">
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="index.html">Главная</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link site-nav__link--active" href="catalog.html">Каталог</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="product.html">Товар</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="order.html">Заявка</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="contacts.html">Контакты</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="index.html#advantages">Преимущества</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="index.html#popular">Популярные товары</a>
+                        </li>
+                        <li class="site-nav__item">
+                            <a class="site-nav__link" href="index.html#contacts">Обратная связь</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <nav class="breadcrumbs" aria-label="Хлебные крошки">
+                <a class="breadcrumbs__link" href="index.html">Главная</a>
+                <span class="breadcrumbs__current">Каталог</span>
+            </nav>
+
+            <section class="section">
+                <h1>Каталог товаров</h1>
+                <p>
+                    В каталоге представлены видеокарты учебного интернет-магазина.
+                    Слева расположен блок фильтров, справа — карточки товаров с
+                    изображением, описанием и ценой.
+                </p>
+            </section>
+
+            <div class="catalog-layout">
+                <aside class="catalog-filters">
+                    <h2>Фильтры</h2>
+
+                    <form class="filters-form" action="#" method="get">
+                        <fieldset>
+                            <legend>Категория</legend>
+                            <label>
+                                <input type="checkbox" name="category" value="all">
+                                Все товары
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="popular">
+                                Популярные
+                            </label>
+                            <label>
+                                <input type="checkbox" name="category" value="new">
+                                Новинки
+                            </label>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Цена</legend>
+                            <label for="price-from">От</label>
+                            <input id="price-from" name="price-from" type="number" min="0" placeholder="0">
+                            <label for="price-to">До</label>
+                            <input id="price-to" name="price-to" type="number" min="0" placeholder="5000">
+                        </fieldset>
+
+                        <button class="button button--primary" type="submit">Применить</button>
+                    </form>
+                </aside>
+
+                <section class="catalog-products">
+                    <h2>Список товаров</h2>
+
+                    <div class="products-grid">
+                        <article class="product-card product-card--featured">
+                            <img class="product-card__image" src="images/Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition.webp" alt="Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition" loading="lazy">
+                            <span class="product-card__badge">Хит</span>
+                            <h3 class="product-card__title">Видеокарта ASUS GeForce RTX 5080 ROG Astral OC Edition</h3>
+                            <p class="product-card__description">Флагманская видеокарта для игр в 4K.</p>
+                            <p class="product-card__price">Цена: 164 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=asus-rtx-5080">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта GIGABYTE GeForce RTX 5070 WINDFORCE OC SFF.webp" alt="Видеокарта GIGABYTE GeForce RTX 5070 WINDFORCE OC SFF" loading="lazy">
+                            <span class="product-card__badge product-card__badge--new">Новинка</span>
+                            <h3 class="product-card__title">Видеокарта GIGABYTE GeForce RTX 5070 WINDFORCE OC SFF</h3>
+                            <p class="product-card__description">Видеокарта для уверенного гейминга в 1440p.</p>
+                            <p class="product-card__price">Цена: 68 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=gigabyte-rtx-5070">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта PowerColor AMD Radeon RX 9060 XT Reaper.webp" alt="Видеокарта PowerColor AMD Radeon RX 9060 XT Reaper" loading="lazy">
+                            <h3 class="product-card__title">Видеокарта PowerColor AMD Radeon RX 9060 XT Reaper</h3>
+                            <p class="product-card__description">Видеокарта на архитектуре RDNA для игр и работы.</p>
+                            <p class="product-card__price">Цена: 44 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=powercolor-rx-9060-xt">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта KFA2 GeForce RTX 5060 ROCK(X) OC 2FAN RGB White.webp" alt="Видеокарта KFA2 GeForce RTX 5060 ROCK(X) OC 2FAN RGB White" loading="lazy">
+                            <span class="product-card__badge product-card__badge--new">Новинка</span>
+                            <h3 class="product-card__title">Видеокарта KFA2 GeForce RTX 5060 ROCK(X) OC 2FAN RGB White</h3>
+                            <p class="product-card__description">Видеокарта с подсветкой RGB и тихим охлаждением.</p>
+                            <p class="product-card__price">Цена: 37 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=kfa2-rtx-5060">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта Palit GeForce RTX 5060 Dual.webp" alt="Видеокарта Palit GeForce RTX 5060 Dual" loading="lazy">
+                            <h3 class="product-card__title">Видеокарта Palit GeForce RTX 5060 Dual</h3>
+                            <p class="product-card__description">Видеокарта для игр в Full HD.</p>
+                            <p class="product-card__price">Цена: 35 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=palit-rtx-5060">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта GIGABYTE GeForce RTX 5050 WINDFORCE OC.webp" alt="Видеокарта GIGABYTE GeForce RTX 5050 WINDFORCE OC" loading="lazy">
+                            <h3 class="product-card__title">Видеокарта GIGABYTE GeForce RTX 5050 WINDFORCE OC</h3>
+                            <p class="product-card__description">Компактная видеокарта для игр в Full HD.</p>
+                            <p class="product-card__price">Цена: 32 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=gigabyte-rtx-5050">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта MSI GeForce RTX 5050 VENTUS 2X OC.webp" alt="Видеокарта MSI GeForce RTX 5050 VENTUS 2X OC" loading="lazy">
+                            <h3 class="product-card__title">Видеокарта MSI GeForce RTX 5050 VENTUS 2X OC</h3>
+                            <p class="product-card__description">Видеокарта для игр и работы с графикой.</p>
+                            <p class="product-card__price">Цена: 31 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=msi-rtx-5050">Подробнее</a>
+                        </article>
+
+                        <article class="product-card product-card--discount">
+                            <img class="product-card__image" src="images/Видеокарта KFA2 GeForce RTX 3050 X Black.webp" alt="Видеокарта KFA2 GeForce RTX 3050 X Black" loading="lazy">
+                            <span class="product-card__badge product-card__badge--discount">Скидка</span>
+                            <h3 class="product-card__title">Видеокарта KFA2 GeForce RTX 3050 X Black</h3>
+                            <p class="product-card__description">Видеокарта для игр в Full HD и монтажа.</p>
+                            <p class="product-card__price">Цена: 24 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=kfa2-rtx-3050">Подробнее</a>
+                        </article>
+
+                        <article class="product-card product-card--discount">
+                            <img class="product-card__image" src="images/Видеокарта MSI GeForce GT 1030 AERO ITX OC.webp" alt="Видеокарта MSI GeForce GT 1030 AERO ITX OC" loading="lazy">
+                            <span class="product-card__badge product-card__badge--discount">Скидка</span>
+                            <h3 class="product-card__title">Видеокарта MSI GeForce GT 1030 AERO ITX OC</h3>
+                            <p class="product-card__description">Видеокарта для офисных задач и медиацентра.</p>
+                            <p class="product-card__price">Цена: 8 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=msi-gt-1030">Подробнее</a>
+                        </article>
+
+                        <article class="product-card">
+                            <img class="product-card__image" src="images/Видеокарта KFA2 GeForce GT 710.webp" alt="Видеокарта KFA2 GeForce GT 710" loading="lazy">
+                            <h3 class="product-card__title">Видеокарта KFA2 GeForce GT 710</h3>
+                            <p class="product-card__description">Видеокарта для сборки офисного ПК.</p>
+                            <p class="product-card__price">Цена: 4 990 руб.</p>
+                            <a class="button button--primary" href="product.html?id=kfa2-gt-710">Подробнее</a>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer" id="contacts">
+            <p>&copy; 2026 Учебный проект. Все права защищены.</p>
+            <p>Дисциплина: Фронтенд и бэкенд разработка</p>
+        </footer>
+
+        <a class="scroll-up" href="#top">Наверх</a>
+    </body>
+</html>
